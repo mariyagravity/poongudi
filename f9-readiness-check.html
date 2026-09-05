@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free DPDP – Zero Trust – AI Readiness Check | F9 Infotech</title>
+<meta name="description" content="Score your organisation's DPDP readiness and exposure in about four minutes. Free, no signup, instant result. From F9 Infotech's GRC practice.">
+<meta property="og:title" content="Free DPDP – Zero Trust – AI Readiness Check | F9 Infotech">
+<meta property="og:description" content="Know it. Govern it. Protect it. Prove it. Score your readiness and your exposure in about four minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#021432; --card:#0B2148; --card2:#0E274F; --deep:#010A29;
+  --blue:#42A9F4; --steel:#1A5276; --green:#117A65; --mint:#4ADE9B;
+  --amber:#B9770E; --purple:#6C3483; --red:#C0564F;
+  --muted:#8FAFD1; --dim:#5F86B5; --w:#fff;
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --maxw:960px; --r:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--w); font-family:var(--body);
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(closest-side at 88% -8%, rgba(11,42,92,.85), transparent),
+    radial-gradient(closest-side at -10% 105%, rgba(11,42,92,.7), transparent);
+}
+.wrap{position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 20px}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue); outline-offset:3px; border-radius:4px}
+
+/* ---------- masthead ---------- */
+.mast{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 0 8px}
+.brand{font-family:var(--display); font-weight:700; font-size:19px; letter-spacing:-.01em}
+.brand span{font-size:10px; font-weight:500; letter-spacing:.22em; color:var(--muted); margin-left:8px}
+.unit{font-size:11px; color:var(--dim); letter-spacing:.12em; text-transform:uppercase}
+
+/* ---------- hero ---------- */
+.hero{padding:38px 0 30px}
+.eyebrow{
+  font-size:11.5px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--blue); margin:0 0 18px
+}
+h1{
+  font-family:var(--display); font-weight:700; font-size:clamp(32px,6vw,52px);
+  line-height:1.06; letter-spacing:-.02em; margin:0 0 18px
+}
+h1 em{font-style:normal; color:var(--blue)}
+.lede{font-size:clamp(16px,2.1vw,18.5px); color:var(--muted); max-width:60ch; margin:0 0 26px}
+
+.meta{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px}
+.chip{
+  font-size:12.5px; color:var(--muted); background:var(--card);
+  border-radius:999px; padding:7px 15px
+}
+.chip b{font-family:var(--mono); color:var(--w); font-weight:700}
+
+/* ---------- clock strip: the runway ---------- */
+.runway{
+  background:var(--deep); border:1px solid var(--steel); border-radius:var(--r);
+  padding:18px 22px; display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px;
+  margin-bottom:30px
+}
+.runway .num{font-family:var(--mono); font-weight:700; font-size:clamp(26px,5vw,34px); color:var(--amber); line-height:1}
+.runway .lbl{font-size:13.5px; color:var(--muted)}
+
+.btn{
+  font-family:var(--body); font-size:16px; font-weight:600; cursor:pointer;
+  background:var(--blue); color:#04203f; border:0; border-radius:var(--r);
+  padding:15px 30px; transition:transform .15s ease, filter .15s ease
+}
+.btn:hover{filter:brightness(1.08); transform:translateY(-1px)}
+.btn.ghost{background:transparent; color:var(--muted); border:1px solid var(--steel)}
+.btn.ghost:hover{color:var(--w)}
+.btn[disabled]{opacity:.4; cursor:not-allowed; transform:none; filter:none}
+
+/* ---------- questionnaire ---------- */
+.quiz{display:none; padding:14px 0 40px}
+.quiz.on{display:block}
+.progress{position:sticky; top:0; z-index:5; background:var(--bg); padding:16px 0 14px}
+.pbar{height:4px; background:var(--card); border-radius:99px; overflow:hidden}
+.pfill{height:100%; width:0; background:var(--blue); transition:width .35s ease}
+.pmeta{display:flex; justify-content:space-between; font-size:12px; color:var(--dim); margin-top:9px; letter-spacing:.08em; text-transform:uppercase}
+
+.step{display:none}
+.step.on{display:block; animation:rise .3s ease both}
+@keyframes rise{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+
+.sectname{font-family:var(--display); font-weight:700; font-size:clamp(24px,4vw,32px); letter-spacing:-.015em; margin:14px 0 4px}
+.sectsub{color:var(--muted); font-size:15px; margin:0 0 26px; max-width:60ch}
+
+fieldset{border:0; margin:0 0 26px; padding:0}
+legend{font-size:17px; font-weight:600; line-height:1.45; padding:0; margin-bottom:6px}
+.hint{font-size:13px; color:var(--dim); margin:0 0 12px}
+.opts{display:grid; gap:8px}
+.opt{
+  display:flex; align-items:flex-start; gap:12px; cursor:pointer;
+  background:var(--card); border:1px solid transparent; border-radius:var(--r);
+  padding:13px 16px; transition:border-color .15s ease, background .15s ease
+}
+.opt:hover{background:var(--card2)}
+.opt input{
+  appearance:none; flex:0 0 auto; width:17px; height:17px; margin-top:3px;
+  border:1.5px solid var(--dim); border-radius:50%; background:transparent; cursor:pointer
+}
+.opt input[type=checkbox]{border-radius:4px}
+.opt input:checked{border-color:var(--blue); background:var(--blue); box-shadow:inset 0 0 0 3px var(--deep)}
+.opt input:checked[type=checkbox]{box-shadow:inset 0 0 0 2.5px var(--deep)}
+.opt:has(input:checked){border-color:var(--blue); background:var(--card2)}
+.opt span{font-size:15px; line-height:1.45}
+
+.nav{display:flex; gap:12px; align-items:center; padding-top:8px}
+.err{color:var(--red); font-size:13.5px; margin-left:auto; text-align:right}
+
+/* ---------- results ---------- */
+.result{display:none; padding:20px 0 60px}
+.result.on{display:block}
+.rgrid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:26px 0}
+.panel{background:var(--card); border-radius:var(--r); padding:22px}
+.panel h3{
+  font-size:11.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--blue); margin:0 0 14px
+}
+.big{font-family:var(--mono); font-weight:700; font-size:clamp(44px,9vw,64px); line-height:1; letter-spacing:-.03em}
+.band{font-family:var(--display); font-weight:700; font-size:21px; margin-top:10px}
+.bandnote{color:var(--muted); font-size:14px; margin-top:8px}
+
+/* signature: exposure x readiness plot */
+.plot{background:var(--card); border-radius:var(--r); padding:22px; margin-bottom:16px}
+.plotbox{position:relative; aspect-ratio:16/9; min-height:240px; background:var(--deep); border-radius:8px; overflow:hidden; margin-top:6px}
+.qd{position:absolute; width:50%; height:50%; display:flex; align-items:flex-start; padding:12px; pointer-events:none}
+.qd small{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); line-height:1.4}
+.qd.tl{top:0;left:0;border-right:1px solid rgba(143,175,209,.16);border-bottom:1px solid rgba(143,175,209,.16)}
+.qd.tr{top:0;right:0;border-bottom:1px solid rgba(143,175,209,.16)}
+.qd.bl{bottom:0;left:0;border-right:1px solid rgba(143,175,209,.16)}
+.qd.br{bottom:0;right:0}
+.dot{
+  position:absolute; width:20px; height:20px; border-radius:50%; background:var(--blue);
+  border:3px solid var(--deep); transform:translate(-50%,50%);
+  box-shadow:0 0 0 6px rgba(66,169,244,.2); z-index:3; transition:left .8s cubic-bezier(.2,.7,.3,1), bottom .8s cubic-bezier(.2,.7,.3,1)
+}
+.axl{display:flex; justify-content:space-between; font-size:11px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin-top:10px}
+.axy{font-size:11px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px}
+
+/* pillar bars */
+.pillars{background:var(--card); border-radius:var(--r); padding:22px; margin-bottom:16px}
+.pill{display:grid; grid-template-columns:132px 1fr 52px; gap:14px; align-items:center; padding:9px 0}
+.pill .nm{font-family:var(--display); font-weight:700; font-size:15px}
+.track{display:block; height:9px; background:var(--deep); border-radius:99px; overflow:hidden}
+.fill{display:block; height:100%; width:0; border-radius:99px; transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.pct{font-family:var(--mono); font-size:14px; text-align:right; color:var(--muted)}
+
+.flag{background:var(--deep); border:1px solid var(--amber); border-radius:var(--r); padding:18px 22px; margin-bottom:16px}
+.flag b{color:var(--amber)}
+
+.actions{background:var(--card); border-radius:var(--r); padding:22px; margin-bottom:16px}
+.act{display:flex; gap:16px; padding:14px 0; border-top:1px solid rgba(143,175,209,.12)}
+.act:first-of-type{border-top:0}
+.act .rank{font-family:var(--mono); font-weight:700; color:var(--blue); font-size:14px; flex:0 0 auto; padding-top:2px}
+.act .t{font-weight:600; font-size:15.5px; margin:0 0 4px}
+.act .d{color:var(--muted); font-size:14px; margin:0}
+
+/* lead capture */
+.cta{background:var(--deep); border:1px solid var(--steel); border-radius:var(--r); padding:26px}
+.cta h2{font-family:var(--display); font-size:26px; font-weight:700; margin:0 0 8px; letter-spacing:-.015em}
+.cta p{color:var(--muted); font-size:15px; margin:0 0 20px; max-width:62ch}
+.frow{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px}
+label.fl{display:block; font-size:12.5px; color:var(--muted); margin-bottom:6px}
+input[type=text],input[type=email],input[type=tel]{
+  width:100%; background:var(--card); border:1px solid transparent; border-radius:8px;
+  color:var(--w); font-family:var(--body); font-size:15px; padding:12px 14px
+}
+input::placeholder{color:#4d6f9b}
+input:focus{border-color:var(--blue); outline:none}
+.consent{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--muted); margin:14px 0 18px}
+.consent input{appearance:none; width:17px; height:17px; margin-top:2px; flex:0 0 auto; border:1.5px solid var(--dim); border-radius:4px; cursor:pointer}
+.consent input:checked{background:var(--blue); border-color:var(--blue); box-shadow:inset 0 0 0 2.5px var(--deep)}
+.sent{color:var(--mint); font-size:15px; font-weight:600}
+
+.foot{border-top:1px solid rgba(143,175,209,.14); margin-top:44px; padding:24px 0 44px; color:var(--dim); font-size:13px}
+.foot .sig{font-family:var(--display); font-weight:700; color:var(--muted); font-size:15px; margin-bottom:8px}
+.disc{font-size:12.5px; color:var(--dim); margin-top:16px; max-width:70ch}
+
+@media (max-width:720px){
+  .rgrid,.frow{grid-template-columns:1fr}
+  .pill{grid-template-columns:96px 1fr 46px; gap:10px}
+  .qd small{font-size:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+}
+@media print{
+  body{background:#fff; color:#000}
+  body::before,.cta,.nav,.progress{display:none}
+  .panel,.plot,.pillars,.actions{background:#f2f5f9; color:#000}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="brand">F9<span>INFOTECH</span></div>
+    <div class="unit">Cybersecurity &amp; GRC</div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="hero">
+    <p class="eyebrow">Free · No signup · About 4 minutes</p>
+    <h1>Know it. Govern it.<br>Protect it. <em>Prove it.</em></h1>
+    <p class="lede">Most organisations can describe their security. Far fewer can prove what personal data they hold, why they hold it, and who else has a copy. This check scores both — how ready you are, and how exposed you are. They are not the same thing.</p>
+
+    <div class="runway">
+      <span class="num" id="daysLeft">—</span>
+      <span class="lbl">days until 13 May 2027, when the substantive DPDP obligations commence in full. Consent re-architecture and data discovery take quarters, not sprints.</span>
+    </div>
+
+    <div class="meta">
+      <span class="chip"><b>19</b> questions</span>
+      <span class="chip"><b>5</b> scored areas</span>
+      <span class="chip">Instant result, no email required</span>
+    </div>
+
+    <button class="btn" id="start">Start the check</button>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="quiz" id="quiz" aria-live="polite">
+    <div class="progress">
+      <div class="pbar"><div class="pfill" id="pfill"></div></div>
+      <div class="pmeta"><span id="pstep">Section 1 of 6</span><span id="pname">Your organisation</span></div>
+    </div>
+    <div id="steps"></div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section class="result" id="result">
+    <p class="eyebrow">Your result</p>
+    <h1 style="font-size:clamp(28px,5vw,42px)" id="verdict">—</h1>
+    <p class="lede" id="verdictNote">—</p>
+
+    <div class="rgrid">
+      <div class="panel">
+        <h3>Readiness</h3>
+        <div class="big" id="rNum">0</div>
+        <div class="band" id="rBand">—</div>
+        <p class="bandnote" id="rNote">—</p>
+      </div>
+      <div class="panel">
+        <h3>Exposure</h3>
+        <div class="big" id="eNum">0</div>
+        <div class="band" id="eBand">—</div>
+        <p class="bandnote" id="eNote">—</p>
+      </div>
+    </div>
+
+    <div class="plot">
+      <h3 style="font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 4px">Where you sit</h3>
+      <p class="axy">Exposure ↑</p>
+      <div class="plotbox">
+        <div class="qd tl"><small>High exposure<br>Low readiness — act now</small></div>
+        <div class="qd tr"><small>High exposure<br>High readiness — hold the line</small></div>
+        <div class="qd bl"><small>Low exposure<br>Low readiness — close the basics</small></div>
+        <div class="qd br"><small>Low exposure<br>High readiness — maintain and prove</small></div>
+        <div class="dot" id="dot" style="left:50%;bottom:50%"></div>
+      </div>
+      <div class="axl"><span>Readiness →</span><span>Higher</span></div>
+    </div>
+
+    <div class="pillars">
+      <h3 style="font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 10px">The four stages, plus AI</h3>
+      <div id="pillarRows"></div>
+      <p class="bandnote" style="margin-top:14px">A programme moves at the speed of its weakest stage. Evidence you cannot produce is indistinguishable from evidence you never had.</p>
+    </div>
+
+    <div class="flag" id="sdfFlag" style="display:none"></div>
+
+    <div class="actions">
+      <h3 style="font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 6px">Start here</h3>
+      <div id="actionList"></div>
+    </div>
+
+    <div class="cta">
+      <h2>Get the detailed readiness report</h2>
+      <p>We will send a written breakdown of your answers against DPDP obligations, a prioritised remediation sequence with indicative effort, and the two questions your Board is most likely to ask first. No obligation, and we will not add you to a mailing list.</p>
+      <form id="leadForm" novalidate>
+        <div class="frow">
+          <div><label class="fl" for="fn">Name</label><input type="text" id="fn" name="name" placeholder="Your name" autocomplete="name"></div>
+          <div><label class="fl" for="fe">Work email</label><input type="email" id="fe" name="email" placeholder="you@company.com" autocomplete="email"></div>
+        </div>
+        <div class="frow">
+          <div><label class="fl" for="fc">Organisation</label><input type="text" id="fc" name="company" placeholder="Company name" autocomplete="organization"></div>
+          <div><label class="fl" for="fp">Phone <span style="color:#4d6f9b">(optional)</span></label><input type="tel" id="fp" name="phone" placeholder="+971 / +91" autocomplete="tel"></div>
+        </div>
+        <label class="consent"><input type="checkbox" id="fconsent"><span>Send me my readiness report and contact me about it. F9 Infotech will use these details only for this purpose.</span></label>
+        <div class="nav">
+          <button type="submit" class="btn" id="leadBtn">Send my report</button>
+          <button type="button" class="btn ghost" onclick="window.print()">Print this result</button>
+          <span class="err" id="leadErr"></span>
+        </div>
+      </form>
+    </div>
+
+    <p class="disc">This is a self-assessment, not a legal determination or a formal audit opinion. It gives a directional read using the same scoring logic F9 Infotech applies in paid readiness engagements. Significant Data Fiduciary status is designated by the Government of India under Section 10 of the DPDP Act 2023 — this check only indicates whether the designation factors appear to apply to you.</p>
+  </section>
+
+  <footer class="foot">
+    <div class="sig">Know it. Govern it. Protect it. Prove it.</div>
+    F9 Infotech · Cybersecurity &amp; GRC Business Unit · UAE · India · KSA<br>
+    ISO 27001 · ISO 42001 · DPDPA · UAE PDPL · GDPR · NIST CSF 2.0 · SOC 2 · HIPAA
+  </footer>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIGURE BEFORE GOING LIVE
+   Set LEAD_ENDPOINT to your form handler (Formspree, HubSpot, Zapier,
+   your own API...). It receives a JSON POST with the contact details
+   and the full scored result. Leave null to fall back to a mailto link.
+   ===================================================================== */
+const LEAD_ENDPOINT = null;
+const LEAD_EMAIL    = "grc@f9infotech.com";   // fallback + change to your address
+
+/* ---------- countdown to full DPDP commencement ---------- */
+(function(){
+  const target = new Date("2027-05-13T00:00:00+05:30");
+  const days = Math.max(0, Math.ceil((target - new Date())/86400000));
+  document.getElementById("daysLeft").textContent = days.toLocaleString("en-IN");
+})();
+
+/* ---------- the questionnaire ---------- */
+const SECTIONS = [
+  { id:"profile", name:"Your organisation", key:"exposure",
+    blurb:"These five answers set your exposure — how much is at stake if the controls underneath are thin.",
+    qs:[
+      { id:"P1", q:"Roughly how many individuals' personal data do you hold?",
+        hint:"Customers, employees, patients, applicants and users combined.",
+        opts:[["Fewer than 10,000",0],["10,000 to 1 lakh",1],["1 lakh to 10 lakh",2],["More than 10 lakh",3]] },
+      { id:"P2", q:"Which best describes your sector?",
+        opts:[["Banking, financial services or insurance",3],["Healthcare or life sciences",3],["Telecom or digital infrastructure",3],["Government or public services",3],["E-commerce or consumer platform",2],["IT services, BPO or shared services",2],["Manufacturing, logistics or other",1]] },
+      { id:"P3", q:"Which of these data types do you handle?", multi:true,
+        hint:"Select all that apply.",
+        opts:[["Health or medical records",2],["Children's data",3],["Government IDs (Aadhaar, passport, Emirates ID)",2],["Financial or payment data",2],["Biometric data",2],["None of these",0]] },
+      { id:"P4", q:"Does personal data leave the country it was collected in?",
+        opts:[["No, it stays in-country",0],["Yes, to group entities abroad",1],["Yes, to vendors or cloud regions abroad",2],["We are not certain where all of it goes",3]] },
+      { id:"P5", q:"Do you process personal data on behalf of client organisations?",
+        hint:"This makes you a Data Processor as well as a Data Fiduciary.",
+        opts:[["No",0],["For some engagements",1],["Yes, it is core to our business",2]] }
+    ]},
+
+  { id:"know", name:"Know it", key:"Know it", color:"var(--blue)",
+    blurb:"You cannot govern, protect or prove what you have not yet found.",
+    qs:[
+      { id:"K1", q:"Do you have a current inventory of every system holding personal data?",
+        hint:"Including backups, test environments, analytics stores and spreadsheets.",
+        opts:[["Complete and actively maintained",3],["Mostly complete, some gaps",2],["Started, covers major systems only",1],["No inventory, or we are unsure",0]] },
+      { id:"K2", q:"Can you show where personal data travels, including across borders?",
+        opts:[["Documented flow maps, kept current",3],["Mapped for major systems",2],["Understood informally, not documented",1],["No, we would have to reconstruct it",0]] },
+      { id:"K3", q:"Do you have a current register of processors and sub-processors?",
+        hint:"Sub-processors are the ones your vendors use — the layer most registers miss.",
+        opts:[["Current, and sub-processors verified",3],["List exists, sub-processors unverified",2],["We have contracts but no register",1],["No register",0]] }
+    ]},
+
+  { id:"govern", name:"Govern it", key:"Govern it", color:"var(--green)",
+    blurb:"Purpose has to be a field a system can enforce, not an assumption in someone's head.",
+    qs:[
+      { id:"G1", q:"Is there a documented purpose for each category of personal data you hold?",
+        opts:[["Documented, and tested against actual use",3],["Documented",2],["For some categories",1],["No",0]] },
+      { id:"G2", q:"Can someone withdraw consent as easily as they gave it?",
+        hint:"And does that withdrawal reach downstream systems, vendors, logs and backups?",
+        opts:[["Yes, and it propagates automatically",3],["Yes, propagated manually",2],["Withdrawal is possible, downstream effect unclear",1],["No mechanism in place",0]] },
+      { id:"G3", q:"Are retention periods defined and actually enforced?",
+        opts:[["Defined and enforced by systems",3],["Defined, applied manually",2],["Defined on paper only",1],["Not defined",0]] }
+    ]},
+
+  { id:"protect", name:"Protect it", key:"Protect it", color:"var(--amber)",
+    blurb:"Zero Trust asks who is accessing. DPDP also asks why, and whether the data should still exist.",
+    qs:[
+      { id:"R1", q:"Does an access decision consider purpose, not only identity and role?",
+        opts:[["Purpose is evaluated at the point of access",3],["Role plus data classification",2],["Role-based only",1],["Ad hoc or broadly permissive",0]] },
+      { id:"R2", q:"Is personal data masked or tokenised in test, analytics and AI environments?",
+        opts:[["Always, without exception",3],["In most environments",2],["In some environments",1],["No, or we are unsure",0]] },
+      { id:"R3", q:"After a breach, how quickly could you identify which individuals are affected?",
+        hint:"Not how fast you detect it — how fast you can name the people.",
+        opts:[["Within hours",3],["One to three days",2],["More than three days",1],["We could not do this reliably",0]] }
+    ]},
+
+  { id:"prove", name:"Prove it", key:"Prove it", color:"var(--purple)",
+    blurb:"Evidence you cannot produce on demand is indistinguishable from evidence you never had.",
+    qs:[
+      { id:"V1", q:"For one named individual, could you produce consent records, access logs and deletion evidence?",
+        opts:[["All three, on demand",3],["Two of the three",2],["One of the three",1],["None of them",0]] },
+      { id:"V2", q:"Have you handled a data principal rights request end to end?",
+        hint:"Access, correction or deletion — including telling them who else received their data.",
+        opts:[["Yes, and we measured how long it took",3],["Yes, but not measured",2],["We have a process, never tested",1],["No process",0]] }
+    ]},
+
+  { id:"ai", name:"AI", key:"AI", color:"var(--mint)",
+    blurb:"Purpose expansion without governance is the quiet risk. It rarely looks like a security incident.",
+    qs:[
+      { id:"A1", q:"Do you know every AI tool and plug-in that touches personal data?",
+        hint:"Including browser extensions and team subscriptions bought outside IT.",
+        opts:[["Full register, actively maintained",3],["Approved tools known, shadow AI unknown",2],["Partial visibility",1],["No, and we have not looked",0]] },
+      { id:"A2", q:"Is purpose or consent checked before data enters an AI system?",
+        opts:[["Enforced automatically at ingestion",3],["Reviewed manually before each use",2],["Checked once at project approval",1],["Not checked",0]] },
+      { id:"A3", q:"Is there a governance framework over your AI use?",
+        hint:"ISO/IEC 42001 or an equivalent AI management system.",
+        opts:[["Certified or fully implemented",3],["Implementation in progress",2],["Policy exists, not operationalised",1],["Nothing in place",0]] }
+    ]}
+];
+
+const REMEDIES = {
+  K1:["Build a single data inventory","Automated discovery across applications, cloud tenants, backups and test environments — with a named owner per data set."],
+  K2:["Map how data actually travels","Flow and lineage mapping per business line, including every cross-border hop and every processor handoff."],
+  K3:["Trace your processors to their sub-processors","Rebuild the register from contracts, then verify what each party actually holds. Sub-processors are where most registers break."],
+  G1:["Write purpose down, then test it","Document a purpose per data set and check it against what teams are really doing with the data today."],
+  G2:["Make withdrawal work downstream","Redesign consent so withdrawal is as easy as consent, and so the consent state is readable by every system that uses the data."],
+  G3:["Move retention from policy into systems","Agree retention with each business owner, then enforce it in the platform rather than restating it in a document."],
+  R1:["Add purpose to the access decision","Extend your existing Zero Trust stack with a purpose tag evaluated at query time, not just at onboarding."],
+  R2:["Mask data outside production","Apply masking or tokenisation in test, analytics and AI environments — these are the copies nobody counts."],
+  R3:["Close the identification gap","A queryable data map turns a multi-day reconstruction into a same-day answer. This is what a breach report actually needs."],
+  V1:["Make evidence queryable per person","Consent records, access logs and deletion proof, retrievable for a named individual without a manual hunt."],
+  V2:["Rehearse a rights request","Run one end to end as a controlled exercise and time it. You will find the gaps before a regulator does."],
+  A1:["Sweep for shadow AI","Check endpoints and SaaS spend, not just the approved tools list. Unregistered AI is the most common finding."],
+  A2:["Check purpose before ingestion","Filter at the point data enters the model, so the purpose tag is enforced rather than reviewed after the fact."],
+  A3:["Put a management system over AI","ISO/IEC 42001 gives you an auditable governance layer that also satisfies DPDP purpose questions."]
+};
+
+/* ---------- render ---------- */
+/* ---------- render ---------- */
+const answers = {};
+const detailedAnswers = {};
+let step = 0;
+const stepsEl = document.getElementById("steps");
+
+SECTIONS.forEach((sec,i)=>{
+  const d = document.createElement("div");
+  d.className = "step"; d.dataset.i = i;
+  let html = `<h2 class="sectname">${sec.name}</h2><p class="sectsub">${sec.blurb}</p>`;
+  sec.qs.forEach(q=>{
+    const type = q.multi ? "checkbox" : "radio";
+    html += `<fieldset data-q="${q.id}"><legend>${q.q}</legend>`;
+    if(q.hint) html += `<p class="hint">${q.hint}</p>`;
+    html += `<div class="opts">`;
+    q.opts.forEach((o,oi)=>{
+      html += `<label class="opt"><input type="${type}" name="${q.id}" value="${oi}"><span>${o[0]}</span></label>`;
+    });
+    html += `</div></fieldset>`;
+  });
+  html += `<div class="nav">
+      ${i>0?'<button type="button" class="btn ghost" data-back>Back</button>':''}
+      <button type="button" class="btn" data-next>${i===SECTIONS.length-1?"See my result":"Continue"}</button>
+      <span class="err" data-err></span>
+    </div>`;
+  d.innerHTML = html;
+  stepsEl.appendChild(d);
+});
+
+function showStep(i){
+  document.querySelectorAll(".step").forEach(s=>s.classList.toggle("on", +s.dataset.i===i));
+  const sec = SECTIONS[i];
+  document.getElementById("pfill").style.width = ((i)/SECTIONS.length*100)+"%";
+  document.getElementById("pstep").textContent = `Section ${i+1} of ${SECTIONS.length}`;
+  document.getElementById("pname").textContent = sec.name;
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+document.getElementById("start").addEventListener("click", ()=>{
+  document.getElementById("hero").style.display="none";
+  document.getElementById("quiz").classList.add("on");
+  showStep(0);
+});
+
+stepsEl.addEventListener("click", e=>{
+  if(e.target.matches("[data-back]")){ step--; showStep(step); }
+  if(e.target.matches("[data-next]")){
+    const cur = document.querySelector(".step.on");
+    const errEl = cur.querySelector("[data-err]");
+    const missing = [...cur.querySelectorAll("fieldset")].filter(fs=>!fs.querySelector("input:checked"));
+    if(missing.length){
+      errEl.textContent = missing.length===1 ? "One question still needs an answer" : `${missing.length} questions still need an answer`;
+      missing[0].scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+    errEl.textContent="";
+    cur.querySelectorAll("fieldset").forEach(fs=>{
+      const qid = fs.dataset.q;
+      const sec = SECTIONS.find(s=>s.qs.some(q=>q.id===qid));
+      const q = sec.qs.find(q=>q.id===qid);
+      const checked = [...fs.querySelectorAll("input:checked")].map(i=>+i.value);
+      answers[qid] = q.multi
+        ? Math.min(4, checked.reduce((a,i)=>a+q.opts[i][1],0))
+        : q.opts[checked[0]][1];
+
+      detailedAnswers[qid] = {
+        sectionId: sec.id,
+        sectionName: sec.name,
+        questionId: qid,
+        questionText: q.q,
+        selectedOptions: checked.map(idx => ({
+          index: idx,
+          text: q.opts[idx][0],
+          score: q.opts[idx][1]
+        }))
+      };
+    });
+    if(step === SECTIONS.length-1){ finish(); }
+    else { step++; showStep(step); }
+  }
+});
+
+/* ---------- scoring ---------- */
+function finish(){
+  const maturity = SECTIONS.filter(s=>s.key!=="exposure");
+  let got=0, max=0;
+  const pillars = maturity.map(sec=>{
+    const g = sec.qs.reduce((a,q)=>a+answers[q.id],0);
+    const m = sec.qs.length*3;
+    got+=g; max+=m;
+    return {id:sec.id, name:sec.key, pct:Math.round(g/m*100), color:sec.color};
+  });
+  const readiness = Math.round(got/max*100);
+
+  const eMax = 3+3+4+3+2;
+  const eRaw = answers.P1+answers.P2+answers.P3+answers.P4+answers.P5;
+  const exposure = Math.round(eRaw/eMax*100);
+
+  const rBand = readiness>=80?["Defensible","You can show your work. Keep the evidence current and the AI estate inside the same governance."]
+              : readiness>=60?["Managed","The programme is real but uneven. The gap is usually evidence, not controls."]
+              : readiness>=40?["Emerging","Foundations exist in places. Nothing yet holds together end to end under a real request."]
+              : ["Exposed","There is no reliable way to answer a data principal, a Board question or a regulator today."];
+
+  const eBand = exposure>=75?["Critical","Volume, sensitivity and data movement all work against you. Errors here are expensive."]
+              : exposure>=50?["High","Enough scale and sensitivity that a single unanswered request becomes a governance issue."]
+              : exposure>=25?["Moderate","Meaningful obligations, manageable scope. This is a good position to get ahead from."]
+              : ["Low","Limited scale and sensitivity. The obligations still apply, but the blast radius is small."];
+
+  document.getElementById("rNum").textContent = readiness;
+  document.getElementById("rBand").textContent = rBand[0];
+  document.getElementById("rNote").textContent = rBand[1];
+  document.getElementById("eNum").textContent = exposure;
+  document.getElementById("eBand").textContent = eBand[0];
+  document.getElementById("eNote").textContent = eBand[1];
+
+  const verdicts = {
+    "hi-lo":["High exposure, low readiness. Start now.","You hold data that matters at a scale that matters, and cannot yet prove how it is governed. This is the quadrant where a single customer request becomes a Board conversation. Sequence matters more than speed — discovery first, then purpose, then evidence."],
+    "hi-hi":["High exposure, strong readiness. Hold the line.","You carry real obligations and you can largely evidence them. The work now is keeping it true as the estate changes — particularly wherever AI is being adopted faster than it is being governed."],
+    "lo-lo":["Low exposure, low readiness. Close the basics.","Scale is on your side, which means this is inexpensive to fix now and expensive to fix later. Build the inventory and the purpose record while the estate is still small enough to map in weeks."],
+    "lo-hi":["Low exposure, strong readiness. Maintain and prove.","You are ahead of most organisations your size. The value now is in demonstrating it — to customers, to insurers and to the enterprise clients who will ask before they sign."]
+  };
+  const key = (exposure>=50?"hi":"lo")+"-"+(readiness>=60?"hi":"lo");
+  document.getElementById("verdict").textContent = verdicts[key][0];
+  document.getElementById("verdictNote").textContent = verdicts[key][1];
+
+  const dot = document.getElementById("dot");
+  const clamp=v=>Math.min(93,Math.max(7,v));
+  setTimeout(()=>{ dot.style.left = clamp(readiness)+"%"; dot.style.bottom = clamp(exposure)+"%"; }, 120);
+
+  const rows = document.getElementById("pillarRows");
+  rows.innerHTML = pillars.map(p=>`
+    <div class="pill">
+      <span class="nm">${p.name}</span>
+      <span class="track"><span class="fill" data-w="${p.pct}" style="background:${p.color}"></span></span>
+      <span class="pct">${p.pct}%</span>
+    </div>`).join("");
+  setTimeout(()=>{ rows.querySelectorAll(".fill").forEach(f=>f.style.width=f.dataset.w+"%"); }, 200);
+
+  // SDF designation factors
+  const sensitive = answers.P3 > 0;
+  const bigVolume = answers.P1 >= 2;
+  const critical  = answers.P2 >= 3;
+  const sdfApplicable = !!(bigVolume && (sensitive || critical));
+  if(sdfApplicable){
+    const f = document.getElementById("sdfFlag");
+    f.style.display="block";
+    f.innerHTML = `<b>Significant Data Fiduciary factors appear to apply.</b><br>
+      Your combination of data volume, sector and data sensitivity matches the factors the Government of India weighs when designating a Significant Data Fiduciary under Section 10. If designated, additional duties follow — appointing a Data Protection Officer based in India, conducting Data Protection Impact Assessments, and commissioning independent data audits. Designation is a government decision, not a self-declaration, but the planning assumption should be that it applies to you.`;
+  }
+
+  const ranked = Object.keys(REMEDIES)
+    .filter(id => id in answers)
+    .sort((a,b)=> answers[a]-answers[b])
+    .slice(0,3);
+  document.getElementById("actionList").innerHTML = ranked.map((id,i)=>`
+    <div class="act">
+      <span class="rank">0${i+1}</span>
+      <div><p class="t">${REMEDIES[id][0]}</p><p class="d">${REMEDIES[id][1]}</p></div>
+    </div>`).join("");
+
+  const rankedRemedies = ranked.map((id, i) => ({
+    id: id,
+    rank: i + 1,
+    title: REMEDIES[id][0],
+    description: REMEDIES[id][1]
+  }));
+
+  // Organise responses by sections
+  const structuredResponses = SECTIONS.map(sec => ({
+    id: sec.id,
+    name: sec.name,
+    questions: sec.qs.map(q => {
+      const recorded = detailedAnswers[q.id];
+      return {
+        id: q.id,
+        text: q.q,
+        selectedOptions: recorded ? recorded.selectedOptions : []
+      };
+    })
+  }));
+
+  window.__F9RESULT = {
+    readiness,
+    exposure,
+    band: rBand[0],
+    readinessNote: rBand[1],
+    exposureBand: eBand[0],
+    exposureNote: eBand[1],
+    verdict: verdicts[key][0],
+    verdictNote: verdicts[key][1],
+    sdfApplicable: sdfApplicable,
+    pillars: pillars,
+    remedies: rankedRemedies,
+    answers,
+    detailedAnswers,
+    structuredResponses
+  };
+
+  document.getElementById("quiz").classList.remove("on");
+  document.getElementById("result").classList.add("on");
+  document.getElementById("pfill").style.width="100%";
+  window.scrollTo({top:0, behavior:"smooth"});
+
+  // Automatically save XML to responses folder as soon as results are generated!
+  saveAssessmentXml({
+    metadata: { timestamp: new Date().toISOString(), source: "KCSS 2026", version: "1.0" },
+    respondent: { name: "Guest User", email: "", company: "Readiness_Assessment", phone: "", consentGiven: false },
+    result: window.__F9RESULT,
+    detailedResponses: structuredResponses
+  });
+}
+
+/* ---------- XML Generation and Auto-Save ---------- */
+function escapeXml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function buildXml(data) {
+  const meta = data.metadata || {};
+  const resp = data.respondent || {};
+  const res = data.result || {};
+  const pillars = res.pillars || [];
+  const remedies = res.remedies || [];
+  const responses = data.detailedResponses || [];
+
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<readinessAssessment>\n';
+
+  xml += '  <metadata>\n';
+  xml += `    <timestamp>${escapeXml(meta.timestamp || new Date().toISOString())}</timestamp>\n`;
+  xml += `    <source>${escapeXml(meta.source || "KCSS 2026")}</source>\n`;
+  xml += `    <version>${escapeXml(meta.version || "1.0")}</version>\n`;
+  xml += '  </metadata>\n';
+
+  xml += '  <respondent>\n';
+  xml += `    <name>${escapeXml(resp.name || "")}</name>\n`;
+  xml += `    <email>${escapeXml(resp.email || "")}</email>\n`;
+  xml += `    <company>${escapeXml(resp.company || "")}</company>\n`;
+  xml += `    <phone>${escapeXml(resp.phone || "")}</phone>\n`;
+  xml += `    <consentGiven>${resp.consentGiven ? "true" : "false"}</consentGiven>\n`;
+  xml += '  </respondent>\n';
+
+  xml += '  <summary>\n';
+  xml += `    <readiness score="${escapeXml(res.readiness)}" band="${escapeXml(res.band)}">\n`;
+  xml += `      <note>${escapeXml(res.readinessNote || "")}</note>\n`;
+  xml += '    </summary>\n';
+  xml += `    <exposure score="${escapeXml(res.exposure)}" band="${escapeXml(res.exposureBand)}">\n`;
+  xml += `      <note>${escapeXml(res.exposureNote || "")}</note>\n`;
+  xml += '    </exposure>\n';
+  if (res.verdict) {
+    xml += `    <verdict title="${escapeXml(res.verdict)}">\n`;
+    xml += `      <description>${escapeXml(res.verdictNote || "")}</description>\n`;
+    xml += '    </verdict>\n';
+  }
+  xml += `    <significantDataFiduciaryApplicable>${res.sdfApplicable ? "true" : "false"}</significantDataFiduciaryApplicable>\n`;
+  xml += '  </summary>\n';
+
+  xml += '  <pillars>\n';
+  pillars.forEach(p => {
+    xml += `    <pillar id="${escapeXml(p.id || p.name)}" name="${escapeXml(p.name)}" scorePercent="${escapeXml(p.pct)}" />\n`;
+  });
+  xml += '  </pillars>\n';
+
+  if (remedies.length > 0) {
+    xml += '  <topRemedies>\n';
+    remedies.forEach((r, idx) => {
+      xml += `    <remedy rank="${idx + 1}" questionId="${escapeXml(r.id)}">\n`;
+      xml += `      <title>${escapeXml(r.title)}</title>\n`;
+      xml += `      <description>${escapeXml(r.description)}</description>\n`;
+      xml += '    </remedy>\n';
+    });
+    xml += '  </topRemedies>\n';
+  }
+
+  if (responses.length > 0) {
+    xml += '  <responses>\n';
+    responses.forEach(sec => {
+      xml += `    <section id="${escapeXml(sec.id)}" name="${escapeXml(sec.name)}">\n`;
+      (sec.questions || []).forEach(q => {
+        xml += `      <question id="${escapeXml(q.id)}">\n`;
+        xml += `        <text>${escapeXml(q.text)}</text>\n`;
+        xml += '        <selectedOptions>\n';
+        (q.selectedOptions || []).forEach(opt => {
+          xml += `          <option score="${escapeXml(opt.score)}">${escapeXml(opt.text)}</option>\n`;
+        });
+        xml += '        </selectedOptions>\n';
+        xml += '      </question>\n';
+      });
+      xml += '    </section>\n';
+    });
+    xml += '  </responses>\n';
+  }
+
+  xml += '</readinessAssessment>\n';
+  return xml;
+}
+
+function autoDownloadXml(xmlText, companyName) {
+  const sanitized = (companyName || "response").replace(/[^a-zA-Z0-9_-]/g, "_");
+  const filename = `response_${sanitized}_${Date.now()}.xml`;
+  const blob = new Blob([xmlText], { type: "application/xml;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 500);
+}
+
+function saveAssessmentXml(payload, callback) {
+  const xmlText = buildXml(payload);
+  payload.xmlString = xmlText;
+  const endpoint = (window.ENV && window.ENV.API_ENDPOINT) || "./save-response.php";
+
+  fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  })
+  .then(data => {
+    console.log("Successfully saved XML to:", data.filePath);
+    if (callback) callback(true, data.filename);
+  })
+  .catch(err => {
+    console.log("Local server save skipped (server not active):", err.message);
+    if (callback) {
+      autoDownloadXml(xmlText, payload.respondent ? payload.respondent.company : "assessment");
+      callback(false);
+    }
+  });
+}
+
+/* ---------- lead capture & XML save ---------- */
+document.getElementById("leadForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const err = document.getElementById("leadErr");
+  const name = fn.value.trim(), email = fe.value.trim(), company = fc.value.trim();
+  if(!name || !email || !company){ err.textContent="Name, work email and organisation are needed"; return; }
+  if(!/^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(email)){ err.textContent="That email address does not look right"; return; }
+  if(!fconsent.checked){ err.textContent="Please confirm we can send your report"; return; }
+  err.textContent="";
+
+  const payload = {
+    metadata: {
+      timestamp: new Date().toISOString(),
+      source: "KCSS 2026",
+      version: "1.0"
+    },
+    respondent: {
+      name,
+      email,
+      company,
+      phone: fp.value.trim(),
+      consentGiven: fconsent.checked
+    },
+    result: window.__F9RESULT,
+    detailedResponses: (window.__F9RESULT && window.__F9RESULT.structuredResponses) || []
+  };
+
+  const btn = document.getElementById("leadBtn");
+  btn.disabled = true;
+  btn.textContent = "Saving…";
+
+  saveAssessmentXml(payload, (savedOnServer, filename) => {
+    const successMsg = savedOnServer
+      ? `Report requested! Your response has been saved directly to <strong>responses/${filename}</strong>.`
+      : `Report requested! Your assessment response has been saved to your XML file.`;
+
+    document.getElementById("leadForm").innerHTML =
+      `<p class="sent" style="color:var(--mint);font-size:15px;line-height:1.5;padding:14px 18px;background:var(--deep);border:1px solid var(--steel);border-radius:var(--r);">${successMsg}</p>`;
+  });
+});
+</script>
+</body>
+</html>
